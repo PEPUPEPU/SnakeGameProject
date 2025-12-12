@@ -76,3 +76,30 @@ void drawgame() {
         cout << scores[i].name << ": " << scores[i].score << "\n";
     }
 }
+
+void loadscore() {
+    ifstream file("snake_score.txt");
+    scorecount = 0;
+    while (file >> scores[scorecount].name >> scores[scorecount].score) {
+        scorecount++;
+    }
+    file.close();
+}
+
+void savescore(string name, int score) {
+    ofstream file("snake_score.txt", ios::app);
+    file << name << " " << score << "\n";
+    file.close();
+}
+
+void setupscores() {
+    for (int i = 0; i < scorecount - 1; i++) {
+        for (int j = 0; j < scorecount - i - 1; j++) {
+            if (scores[j].score < scores[j + 1].score) {
+                scoreentry temp = scores[j];
+                scores[j] = scores[j + 1];
+                scores[j + 1] = temp;
+            }
+        }
+    }
+}
